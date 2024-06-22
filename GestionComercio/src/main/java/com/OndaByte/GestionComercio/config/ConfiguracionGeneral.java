@@ -64,7 +64,10 @@ public class ConfiguracionGeneral {
     static{
         if(logger.isDebugEnabled()){
             logger.debug("Init logger in ConfiguracionGeneral");
+        }else{
+            logger.error("Se rompio");
         }
+        
     }
 
     private static boolean configInit = false;

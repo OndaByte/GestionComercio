@@ -4,12 +4,12 @@
     <Console name="Console">
       <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
     </Console> 
-    <File name="File" fileName="java-mqtt.log">
+    <File name="File" fileName="comercio.log">
         <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
     </File>
     </Appenders>
   <Loggers>
-    <Root level="TRACE">
+    <Root level="WARN">
       <AppenderRef ref="Console"/>
     </Root>
   </Loggers>
