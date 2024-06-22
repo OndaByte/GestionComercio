@@ -40,7 +40,7 @@ public abstract class CrudDAO<T> {
             Logger.getLogger(CrudDAO.class.getName()).log(Level.SEVERE, null, e);
         }
     }
-    
+
     public void update(T t) {
         Class c = t.getClass();
         String set="";
@@ -56,7 +56,7 @@ public abstract class CrudDAO<T> {
             if(set.length()>2)
                 set = set.substring(0,set.length()-2);
 
-            String query = " UPDATE " + getTableName() + " SET " + set + " WHERE "+this.getTablePK() + "=:"+this.getTablePK();
+            String query = "UPDATE " + getTableName() + " SET " + set + " WHERE "+this.getTablePK() + "=:"+this.getTablePK();
             System.out.println(query);
             Connection con = DAOSql2o.getSql2o().open();
             con.createQuery(query).bind(t).executeUpdate();
@@ -66,7 +66,8 @@ public abstract class CrudDAO<T> {
         }
     }
     
-    public List<T> getAll(Class c){
+    public List<T> getAll(){
+        Class c = this.getTClass();
         String query = "SELECT * FROM "+ this.getTableName();
         try{
             Connection con = DAOSql2o.getSql2o().open();
@@ -78,6 +79,20 @@ public abstract class CrudDAO<T> {
         return null;
     }
     
+
+    public T get(String id) {
+        String query = "SELECT * FROM "+ this.getTableName();
+        Class c = this.getTClass();
+        try{
+            Connection con = DAOSql2o.getSql2o().open();
+            return con.createQuery(query).executeAndFetch(c).executeAndFetchUnique();
+        }
+        catch (Exception e){
+            Logger.getLogger(CrudDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return null;
+    }
+
     /*
     public void addAndFiltro(String ){
         String query = "SELECT * FROM "+ this.getTableName();
