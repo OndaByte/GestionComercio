@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>376</x>
+      <y>600</y>
+      <w>168</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>UsuarioDAO&lt;Usuario&gt;
+--
+-tabla = "Usuario" : String
+-clave = "id" : String
+--
++getClase() : String
++getTabla() : String
++getClave() : String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>448</x>
+      <y>488</y>
+      <w>24</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>952</x>
+      <y>584</y>
+      <w>136</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>Usuario
+--
+-usuario : String
+-contra : String
+--
++ Usuario()
++ getters() : Atributo
++ setters(val)
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>320</x>
+      <y>200</y>
+      <w>288</w>
+      <h>296</h>
+    </coordinates>
+    <panel_attributes>/ABMDAO &lt;T&gt;/
+{sql}
+--
+
+--
+/+getClase() : String/
+/+getTabla() : String/
+/+getClave() : String/
++alta(t : T) : boolean
++listar() : List &lt;T&gt;
++listar(id : String) : T
++listar(ids : Strings[]) : List &lt;T&gt; {falta implementar} 
++baja(id : Strings) : boolean {falta implementar} 
++modificar(t : T) : boolean {falta implementar} 
+
+--
+Alta, Baja, Modificacion, Seleccion 
+genericos para cualquier clase Java
+
+Debe ser extendida por el DAO
+de la entidad correspondiente
+
+*T DEBE extender ObjetoBD*</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>872</x>
+      <y>248</y>
+      <w>288</w>
+      <h>232</h>
+    </coordinates>
+    <panel_attributes>/ObjetoBD/
+--
+-id : int
+-creado : Date
+-ultMod : Date
+-estado : Enum
+-tipo : String
+--
++ ObjetoBD(tipo : String)
++ getters() : Atributo
++ setters(val)
+
+--
+Todos los MODELOS deben extender de ObjetoBD
+Objetos producto de consultas complejas deberan
+ser tratados en sus DAOS correspondientes</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1008</x>
+      <y>472</y>
+      <w>24</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>536</x>
+      <y>640</y>
+      <w>432</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+usa &gt;
+m2=1</panel_attributes>
+    <additional_attributes>520.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>352</y>
+      <w>288</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+usa &gt;
+m2=1</panel_attributes>
+    <additional_attributes>340.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+</diagram>

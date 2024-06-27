@@ -14,11 +14,11 @@ import com.OndaByte.GestionComercio.Modelo.ObjetoBD;
  * @param <T>
  */
 public abstract class ABMDAO <T> {
-    abstract public Class<T> getTClass();
+    abstract public Class<T> getClase();
     
-    abstract public String getTablePK();
+    abstract public String getClave();
     
-    abstract public String getTableName();
+    abstract public String getTabla();
     
     public boolean alta(T t) {
         try(Connection con = DAOSql2o.getSql2o().beginTransaction()){
@@ -51,7 +51,7 @@ public abstract class ABMDAO <T> {
             }
             columnas = columnas + " id)";
             valores = valores + " "+id+")";
-            query = "INSERT INTO " + getTableName() + " " + columnas + " VALUES " + valores;
+            query = "INSERT INTO " + getTabla() + " " + columnas + " VALUES " + valores;
             System.out.println(query);
             con.createQuery(query).bind(t).executeUpdate();
             con.commit();
@@ -63,7 +63,7 @@ public abstract class ABMDAO <T> {
         return false;
     }
 
-    public void modificar(T t) {
+    public boolean modificar(T t) {
         try {
             Class c = t.getClass();
             String set="";
@@ -74,7 +74,7 @@ public abstract class ABMDAO <T> {
             }
             for (Field f : c.getDeclaredFields()) {
                 nombre=f.getName();
-                if(nombre.equals(this.getTablePK())){
+                if(nombre.equals(this.getClave())){
                     continue;
                 }
                 set = set + nombre + "=:" + nombre+", ";
@@ -82,7 +82,7 @@ public abstract class ABMDAO <T> {
             if(set.length()>2)
                 set = set.substring(0,set.length()-2);
 
-            String query = "UPDATE " + getTableName() + " SET " + set + " WHERE "+this.getTablePK() + "=:"+this.getTablePK();
+            String query = "UPDATE " + getTabla() + " SET " + set + " WHERE "+this.getClave() + "=:"+this.getClave();
             System.out.println(query);
             Connection con = DAOSql2o.getSql2o().open();
             con.createQuery(query).bind(t).executeUpdate();
@@ -90,6 +90,7 @@ public abstract class ABMDAO <T> {
         catch (Exception e){
             Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
         }
+        return false;
     }
 
     public boolean baja(){
@@ -102,9 +103,9 @@ public abstract class ABMDAO <T> {
         return false;
     }
     
-    public List<T> getAll(){
-        Class c = this.getTClass();
-        String query = "SELECT * FROM "+ this.getTableName() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTableName() +".id";
+    public List<T> listar(){
+        Class c = this.getClase();
+        String query = "SELECT * FROM "+ this.getTabla() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTabla() +".id";
         try{
             Connection con = DAOSql2o.getSql2o().open();
             return con.createQuery(query).executeAndFetch(c);
@@ -115,7 +116,7 @@ public abstract class ABMDAO <T> {
         return null;
     }
 
-    public List<T> getAll(String... ids){
+    public List<T> listar(String... ids){
          try{
             throw(new Exception("No implementado"));
         }
@@ -125,9 +126,9 @@ public abstract class ABMDAO <T> {
         return null;
     }
 
-    public T get(String id) {
-        Class c = this.getTClass();
-        String query = "SELECT * FROM "+ this.getTableName() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTableName() +".id";
+    public T listar(String id) {
+        Class c = this.getClase();
+        String query = "SELECT * FROM "+ this.getTabla() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTabla() +".id";
         try{
             Connection con = DAOSql2o.getSql2o().open();
             return (T) con.createQuery(query).executeScalar(c);

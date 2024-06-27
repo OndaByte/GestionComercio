@@ -1,6 +1,6 @@
 package com.OndaByte.GestionComercio;
 import com.OndaByte.GestionComercio.Control.UsuarioControl;
-import com.OndaByte.GestionComercio.Util.FiltroAutenticador;
+import com.OndaByte.GestionComercio.Filtros.FiltroAutenticador;
 
 import spark.Spark;
 

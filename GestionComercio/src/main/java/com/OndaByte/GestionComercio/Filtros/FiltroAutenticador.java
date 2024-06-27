@@ -1,4 +1,4 @@
-package com.OndaByte.GestionComercio.Util;
+package com.OndaByte.GestionComercio.Filtros;
 
 import spark.Filter;
 import spark.Request;

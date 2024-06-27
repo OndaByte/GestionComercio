@@ -19,7 +19,7 @@ public class UsuarioControl {
 
     public static Route usuarios = (Request req, Response res) -> {
         DAOUsuario dao = new DAOUsuario();
-        List<Usuario> usuarios = dao.getAll();
+        List<Usuario> usuarios = dao.listar();
         String resul = "[";
         for (Usuario u : usuarios){
             resul += u.toString()+",";
