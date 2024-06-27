@@ -7,11 +7,11 @@ import java.util.logging.Logger;
 import org.sql2o.Connection;
 
 /**
- * CrudDAO
+ * ABMDAO generico
  * @author Fran
  * @param <T>
  */
-public abstract class CrudDAO<T> {
+public abstract class ABMDAO <T> {
     abstract public Class<T> getTClass();
     
     abstract public String getTablePK();

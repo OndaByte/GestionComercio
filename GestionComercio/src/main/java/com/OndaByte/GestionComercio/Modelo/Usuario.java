@@ -8,7 +8,8 @@ public class Usuario extends ObjetoBD{
 	private String contra;
     private String usuario;
 
-    public Usuario(){};
+    public Usuario(){super("Usuario");};
+
 	public String getContra() {
 		return contra;
 	}
