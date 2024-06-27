@@ -34,7 +34,9 @@ public class UsuarioControl {
     public static Route registrar = (Request req, Response res) -> {
         DAOUsuario dao = new DAOUsuario();
         Usuario aux = new Usuario();
+        System.out.println(aux.toString());
         aux.setUsuario("Dismaster");
+        aux.setId(57);
         return dao.alta(aux);
     };
 }

@@ -15,6 +15,6 @@ public class App
         Spark.before("/protegido/*", FiltroAutenticador.filtro);
         Spark.get("/protegido/test", (req, res) -> "Logueado con exito");
         Spark.get("/usuarios", UsuarioControl.usuarios);
-        Spark.post("/registrar", UsuarioControl.registrar);
+        Spark.get("/registrar", UsuarioControl.registrar);
     }
 }

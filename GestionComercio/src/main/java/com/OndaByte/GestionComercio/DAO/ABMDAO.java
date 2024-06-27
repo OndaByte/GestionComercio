@@ -30,29 +30,29 @@ public abstract class ABMDAO <T> {
             String valores = " ("; 
             String columnas = " (";
             String nombre="";
-            System.out.println("asdasdasd");
             for (Field f : objetobd.getDeclaredFields()) {
                 nombre=f.getName();
-                columnas = columnas + " " + nombre + " ,";
-                valores = valores + " :" + nombre + " ,";
-            }
-            String query = "INSERT INTO " + getTableName() + " " + columnas + " VALUES " + valores;
-            System.out.println(query);
-            con.createQuery(query).bind(t).executeUpdate();
-
-            valores = " ("; 
-            columnas = " (";
-            nombre="";
-
-            for (Field f : c.getDeclaredFields()) {
-                nombre=f.getName();
+                if(nombre.equals("id")) continue;
                 columnas = columnas + " " + nombre + " ,";
                 valores = valores + " :" + nombre + " ,";
             }
             valores = valores.substring(0,valores.length()-1) + ")";
             columnas = columnas.substring(0,columnas.length()-1)+ ")";
+            String query = "INSERT INTO ObjetoBD " + columnas + " VALUES " + valores;
+            int id = con.createQuery(query, true).bind((ObjetoBD) t).executeUpdate().getKey(int.class);
 
+            valores = " ("; 
+            columnas = " (";
+            nombre="";
+            for (Field f : c.getDeclaredFields()) {
+                nombre=f.getName();
+                columnas = columnas + " " + nombre + " ,";
+                valores = valores + " :" + nombre + " ,";
+            }
+            columnas = columnas + " id)";
+            valores = valores + " "+id+")";
             query = "INSERT INTO " + getTableName() + " " + columnas + " VALUES " + valores;
+            System.out.println(query);
             con.createQuery(query).bind(t).executeUpdate();
             con.commit();
             return true;
@@ -68,6 +68,7 @@ public abstract class ABMDAO <T> {
             Class c = t.getClass();
             String set="";
             String nombre;
+
             if(c.getSuperclass() != ObjetoBD.class){
                 throw (new Exception("La entidad debe heredar de ObjetoBD"));
             }

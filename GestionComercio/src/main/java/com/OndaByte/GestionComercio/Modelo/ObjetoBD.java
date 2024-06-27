@@ -8,7 +8,7 @@ import java.util.Date;
  * @author Fran
  */
 public abstract class ObjetoBD {
-    private Long id;
+    private int id;
     private Date creado=new Date();
     private Date ultMod=new Date();
     private String estado="ACTIVO";
@@ -16,10 +16,10 @@ public abstract class ObjetoBD {
     
 	public ObjetoBD(String tipo){ this.tipo = tipo;}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public Date getCreado() {
