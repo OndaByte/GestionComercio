@@ -140,4 +140,16 @@ bg=gray</panel_attributes>
 &lt;&lt;http&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;310.0</additional_attributes>
   </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>714</x>
+      <y>378</y>
+      <w>217</w>
+      <h>182</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;290.0;20.0;290.0;240.0</additional_attributes>
+  </element>
 </diagram>

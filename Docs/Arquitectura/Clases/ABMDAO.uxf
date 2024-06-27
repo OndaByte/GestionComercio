@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>376</x>
-      <y>600</y>
+      <x>472</x>
+      <y>696</y>
       <w>168</w>
       <h>112</h>
     </coordinates>
@@ -22,8 +22,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>448</x>
-      <y>488</y>
+      <x>544</x>
+      <y>584</y>
       <w>24</w>
       <h>128</h>
     </coordinates>
@@ -33,8 +33,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>952</x>
-      <y>584</y>
+      <x>1048</x>
+      <y>680</y>
       <w>136</w>
       <h>128</h>
     </coordinates>
@@ -46,15 +46,15 @@
 + Usuario()
 + getters() : Atributo
 + setters(val)
-
++ toString() : String (json)
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>320</x>
-      <y>200</y>
+      <x>416</x>
+      <y>296</y>
       <w>288</w>
       <h>296</h>
     </coordinates>
@@ -86,8 +86,8 @@ de la entidad correspondiente
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>872</x>
-      <y>248</y>
+      <x>968</x>
+      <y>344</y>
       <w>288</w>
       <h>232</h>
     </coordinates>
@@ -101,7 +101,8 @@ de la entidad correspondiente
 --
 + ObjetoBD(tipo : String)
 + getters() : Atributo
-+ setters(val)
++ setters(val) (excepto tipo)
++ toString() : String (json)
 
 --
 Todos los MODELOS deben extender de ObjetoBD
@@ -112,8 +113,8 @@ ser tratados en sus DAOS correspondientes</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1008</x>
-      <y>472</y>
+      <x>1104</x>
+      <y>568</y>
       <w>24</w>
       <h>128</h>
     </coordinates>
@@ -123,8 +124,8 @@ ser tratados en sus DAOS correspondientes</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>536</x>
-      <y>640</y>
+      <x>632</x>
+      <y>736</y>
       <w>432</w>
       <h>40</h>
     </coordinates>
@@ -137,8 +138,8 @@ m2=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>600</x>
-      <y>352</y>
+      <x>696</x>
+      <y>448</y>
       <w>288</w>
       <h>40</h>
     </coordinates>
@@ -147,5 +148,55 @@ m1=1
 usa &gt;
 m2=1</panel_attributes>
     <additional_attributes>340.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>112</x>
+      <y>400</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>sql2o</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>184</x>
+      <y>400</y>
+      <w>248</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+&lt; usa
+m2=*</panel_attributes>
+    <additional_attributes>10.0;20.0;290.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>184</x>
+      <y>504</y>
+      <w>248</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+&lt; usa
+m2=1</panel_attributes>
+    <additional_attributes>10.0;20.0;290.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>112</x>
+      <y>504</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>reflect</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

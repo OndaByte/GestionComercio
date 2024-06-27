@@ -46,6 +46,6 @@ public abstract class ObjetoBD {
 		return tipo;
 	}
     public String toString(){
-        return "id : "+id+", "+"creado : "+creado.toString()+", ultMod : "+ultMod.toString()+", estado : "+estado+", tipo : "+tipo;
+        return "id : "+id+", "+"creado : \""+creado.toString()+"\", ultMod : \""+ultMod.toString()+"\", estado : \""+estado+"\", tipo : \""+tipo+"\"";
     }
 }

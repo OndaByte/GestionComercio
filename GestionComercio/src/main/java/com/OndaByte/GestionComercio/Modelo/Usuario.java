@@ -24,7 +24,7 @@ public class Usuario extends ObjetoBD{
 	}
 
     public String toString(){
-        return "{"+super.toString()+", contra : "+this.contra+", usuario : "+this.usuario+"}";
+        return "{"+super.toString()+", contra : \""+this.contra+"\", usuario : \""+this.usuario+"\"}";
     }
 
 }
