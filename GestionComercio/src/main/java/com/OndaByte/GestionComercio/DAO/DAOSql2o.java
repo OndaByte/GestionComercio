@@ -6,7 +6,7 @@ public class DAOSql2o {
 
     public static Sql2o getSql2o() {
         if (sql2o == null) {
-            sql2o = new Sql2o("jdbc:mysql://localhost:3306/ComercioBD", "root","root");
+            sql2o = new Sql2o("jdbc:mysql://localhost:3306/GestionComercio", "root","root");
         }
         return sql2o;
     }

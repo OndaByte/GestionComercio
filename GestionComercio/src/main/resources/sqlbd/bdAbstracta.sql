@@ -1,6 +1,5 @@
--- hay que poner el nombre de la bd en base al config
-DROP SCHEMA IF EXISTS BD_COMERCIO;
-DROP TABLE IF EXISTS BD_COMERCIO.ObjetoBD;
+DROP TABLE IF EXISTS ObjetoBD;
+DROP TABLE IF EXISTS Usuario;
 
 CREATE TABLE ObjetoBD(
     id INT PRIMARY KEY,
@@ -11,8 +10,8 @@ CREATE TABLE ObjetoBD(
 );
 
 CREATE TABLE Usuario(
-    padre INT PRIMARY KEY,
+    id INT PRIMARY KEY,
     usuario VARCHAR(50),
     contra VARCHAR(50),
-    FOREIGN KEY (padre) REFERENCES ObjetoBD(id) ON DELETE CASCADE
+    FOREIGN KEY(id) REFERENCES ObjetoBD(id) ON DELETE CASCADE
 );

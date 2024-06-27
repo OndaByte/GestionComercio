@@ -22,4 +22,9 @@ public class Usuario extends ObjetoBD{
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
+
+    public String toString(){
+        return "{"+super.toString()+", contra : "+this.contra+", usuario : "+this.usuario+"}";
+    }
+
 }

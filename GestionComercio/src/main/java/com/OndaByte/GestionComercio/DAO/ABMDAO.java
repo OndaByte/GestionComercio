@@ -6,6 +6,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.sql2o.Connection;
 
+import com.OndaByte.GestionComercio.Modelo.ObjetoBD;
+
 /**
  * ABMDAO generico
  * @author Fran
@@ -19,11 +21,14 @@ public abstract class ABMDAO <T> {
     abstract public String getTableName();
     
     public void alta(T t) {
-        Class c = t.getClass();
-        String valores = " ("; 
-        String columnas = " (";
-        String nombre;
         try {
+            Class c = t.getClass();
+            if(c.getSuperclass() != ObjetoBD.class){
+                throw (new Exception("La entidad debe heredar de ObjetoBD"));
+            }
+            String valores = " ("; 
+            String columnas = " (";
+            String nombre;
             for (Field f : c.getDeclaredFields()) {
                 nombre=f.getName();
                 columnas = columnas + " " + nombre + " ,";
@@ -37,15 +42,19 @@ public abstract class ABMDAO <T> {
             con.createQuery(query).bind(t).executeUpdate();
         }
         catch (Exception e){
-            Logger.getLogger(CrudDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
     public void modificar(T t) {
-        Class c = t.getClass();
-        String set="";
-        String nombre;
+        
         try {
+            Class c = t.getClass();
+            String set="";
+            String nombre;
+            if(c.getSuperclass() != ObjetoBD.class){
+                throw (new Exception("La entidad debe heredar de ObjetoBD"));
+            }
             for (Field f : c.getDeclaredFields()) {
                 nombre=f.getName();
                 if(nombre.equals(this.getTablePK())){
@@ -62,7 +71,7 @@ public abstract class ABMDAO <T> {
             con.createQuery(query).bind(t).executeUpdate();
         }
         catch (Exception e){
-            Logger.getLogger(CrudDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -71,20 +80,20 @@ public abstract class ABMDAO <T> {
             throw(new Exception("No implementado"));
         }
         catch(Exception e) {
-            Logger.getLogger(CrudDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return false;
     }
     
     public List<T> getAll(){
         Class c = this.getTClass();
-        String query = "SELECT * FROM "+ this.getTableName();
+        String query = "SELECT * FROM "+ this.getTableName() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTableName() +".id";
         try{
             Connection con = DAOSql2o.getSql2o().open();
             return con.createQuery(query).executeAndFetch(c);
         }
         catch (Exception e){
-            Logger.getLogger(CrudDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
     }
@@ -94,20 +103,20 @@ public abstract class ABMDAO <T> {
             throw(new Exception("No implementado"));
         }
         catch(Exception e) {
-            Logger.getLogger(CrudDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
     }
 
     public T get(String id) {
-        String query = "SELECT * FROM "+ this.getTableName();
         Class c = this.getTClass();
+        String query = "SELECT * FROM "+ this.getTableName() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTableName() +".id";
         try{
             Connection con = DAOSql2o.getSql2o().open();
             return (T) con.createQuery(query).executeScalar(c);
         }
         catch (Exception e){
-            Logger.getLogger(CrudDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
     }
@@ -120,7 +129,7 @@ public abstract class ABMDAO <T> {
             return con.createQuery(query).executeAndFetch(c);
         }
         catch (Exception e){
-            Logger.getLogger(CrudDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
     }
@@ -134,7 +143,7 @@ public abstract class ABMDAO <T> {
             con.createQuery(query).bind(t).executeAndFetch(c);
         }
         catch (Exception e){
-            Logger.getLogger(CrudDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
     }*/
