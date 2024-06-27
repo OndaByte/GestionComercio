@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>350</x>
+      <y>200</y>
+      <w>250</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>ObjetoBD
+--
+*id : Int*
+creado : Date
+ultMod : Date
+estado : ACTIVO,INACTIVO
+tipo : String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>90</x>
+      <y>190</y>
+      <w>240</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Todos los modelos
+deben extender de
+ObjetoBD, todas las
+tablas de los modelos
+deben ser hijas de ObjetoBD</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>350</x>
+      <y>500</y>
+      <w>250</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Usuario
+--
+*id : ObjetoBD.id*
+*Usuraio : String*
+contra : String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>340</y>
+      <w>90</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+Extiende</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>80</x>
+      <y>550</y>
+      <w>240</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Falta agregar roles de usuario</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
