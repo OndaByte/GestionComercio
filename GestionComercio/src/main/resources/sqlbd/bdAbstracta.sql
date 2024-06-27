@@ -11,7 +11,7 @@ CREATE TABLE ObjetoBD(
 
 CREATE TABLE Usuario(
     id INT PRIMARY KEY,
-    usuario VARCHAR(50),
+    usuario VARCHAR(50) UNIQUE,
     contra VARCHAR(50),
     FOREIGN KEY(id) REFERENCES ObjetoBD(id) ON DELETE CASCADE
 );

@@ -7,7 +7,6 @@ import com.OndaByte.GestionComercio.Modelo.Usuario;
 import spark.Request;
 import spark.Response;
 import spark.Route;
-//import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class UsuarioControl {
     static Route login = (Request req, Response res) -> {
@@ -21,9 +20,21 @@ public class UsuarioControl {
     public static Route usuarios = (Request req, Response res) -> {
         DAOUsuario dao = new DAOUsuario();
         List<Usuario> usuarios = dao.getAll();
+        String resul = "[";
         for (Usuario u : usuarios){
-            System.out.println(u.toString());
+            resul += u.toString()+",";
         }
-        return "";
+        if(resul.length() > 2){
+            resul = resul.substring(0,resul.length()-2);
+        }
+        resul += "]";
+        return resul;
+    };
+
+    public static Route registrar = (Request req, Response res) -> {
+        DAOUsuario dao = new DAOUsuario();
+        Usuario aux = new Usuario();
+        aux.setUsuario("Dismaster");
+        return dao.alta(aux);
     };
 }

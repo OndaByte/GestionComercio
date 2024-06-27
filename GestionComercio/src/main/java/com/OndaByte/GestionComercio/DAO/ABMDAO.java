@@ -20,15 +20,30 @@ public abstract class ABMDAO <T> {
     
     abstract public String getTableName();
     
-    public void alta(T t) {
-        try {
+    public boolean alta(T t) {
+        try(Connection con = DAOSql2o.getSql2o().beginTransaction()){
             Class c = t.getClass();
-            if(c.getSuperclass() != ObjetoBD.class){
+            Class objetobd = c.getSuperclass();
+            if(objetobd != ObjetoBD.class){
                 throw (new Exception("La entidad debe heredar de ObjetoBD"));
             }
             String valores = " ("; 
             String columnas = " (";
-            String nombre;
+            String nombre="";
+            System.out.println("asdasdasd");
+            for (Field f : objetobd.getDeclaredFields()) {
+                nombre=f.getName();
+                columnas = columnas + " " + nombre + " ,";
+                valores = valores + " :" + nombre + " ,";
+            }
+            String query = "INSERT INTO " + getTableName() + " " + columnas + " VALUES " + valores;
+            System.out.println(query);
+            con.createQuery(query).bind(t).executeUpdate();
+
+            valores = " ("; 
+            columnas = " (";
+            nombre="";
+
             for (Field f : c.getDeclaredFields()) {
                 nombre=f.getName();
                 columnas = columnas + " " + nombre + " ,";
@@ -37,17 +52,18 @@ public abstract class ABMDAO <T> {
             valores = valores.substring(0,valores.length()-1) + ")";
             columnas = columnas.substring(0,columnas.length()-1)+ ")";
 
-            String query = "INSERT INTO " + getTableName() + " " + columnas + " VALUES " + valores;
-            Connection con = DAOSql2o.getSql2o().open();
+            query = "INSERT INTO " + getTableName() + " " + columnas + " VALUES " + valores;
             con.createQuery(query).bind(t).executeUpdate();
+            con.commit();
+            return true;
         }
         catch (Exception e){
             Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
         }
+        return false;
     }
 
     public void modificar(T t) {
-        
         try {
             Class c = t.getClass();
             String set="";
