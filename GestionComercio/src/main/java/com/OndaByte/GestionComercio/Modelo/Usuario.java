@@ -4,9 +4,21 @@ package com.OndaByte.GestionComercio.Modelo;
  * Usuario
  * @author Fran
  */
-public class Usuario {
-    private long id;
+public class Usuario extends ObjetoBD{
+	private String contra;
     private String usuario;
-    private String contra;
-    
+
+    public Usuario(){};
+	public String getContra() {
+		return contra;
+	}
+	public void setContra(String contra) {
+		this.contra = contra;
+	}
+    public String getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 }

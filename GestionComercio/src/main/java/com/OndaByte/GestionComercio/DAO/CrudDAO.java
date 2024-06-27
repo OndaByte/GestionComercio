@@ -18,7 +18,7 @@ public abstract class CrudDAO<T> {
     
     abstract public String getTableName();
     
-    public void insert(T t) {
+    public void alta(T t) {
         Class c = t.getClass();
         String valores = " ("; 
         String columnas = " (";
@@ -41,7 +41,7 @@ public abstract class CrudDAO<T> {
         }
     }
 
-    public void update(T t) {
+    public void modificar(T t) {
         Class c = t.getClass();
         String set="";
         String nombre;
@@ -65,6 +65,16 @@ public abstract class CrudDAO<T> {
             Logger.getLogger(CrudDAO.class.getName()).log(Level.SEVERE, null, e);
         }
     }
+
+    public boolean baja(){
+        try{
+            throw(new Exception("No implementado"));
+        }
+        catch(Exception e) {
+            Logger.getLogger(CrudDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
     
     public List<T> getAll(){
         Class c = this.getTClass();
@@ -78,14 +88,23 @@ public abstract class CrudDAO<T> {
         }
         return null;
     }
-    
+
+    public List<T> getAll(String... ids){
+         try{
+            throw(new Exception("No implementado"));
+        }
+        catch(Exception e) {
+            Logger.getLogger(CrudDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return null;
+    }
 
     public T get(String id) {
         String query = "SELECT * FROM "+ this.getTableName();
         Class c = this.getTClass();
         try{
             Connection con = DAOSql2o.getSql2o().open();
-            return con.createQuery(query).executeAndFetch(c).executeAndFetchUnique();
+            return (T) con.createQuery(query).executeScalar(c);
         }
         catch (Exception e){
             Logger.getLogger(CrudDAO.class.getName()).log(Level.SEVERE, null, e);
