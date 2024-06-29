@@ -89,15 +89,21 @@ public class UsuarioControl {
             res.status(400);
             return "Usuario y Contraseña requeridos";
         }
-        return "NO IMPLEMENTADO WACHIN";
-        /*
-        if (dao.login(usuarios,contra)){
+        List<String> campos = new ArrayList();
+        List<String> valores = new ArrayList();
+        List<Integer> condiciones = new ArrayList();
+        campos.add("usuario");
+        valores.add(usuario);
+        condiciones.add(0);
+        Usuario aux = dao.filtrar(campos, valores, condiciones).get(0);
+        boolean autenticar = BCrypt.checkpw(contra, aux.getContra());
+        if (autenticar){
             res.status(200);
             return "Loguin exitoso";
         }
         else{
             res.status(500);
             return "Error al loguear";
-        }*/
+        }
     };
 }

@@ -17,5 +17,6 @@ public class App
         get("/usuarios", UsuarioControl.usuarios);
         get("/usuarios/filtrar", UsuarioControl.usuariosFiltrar);
         post("/registrar", UsuarioControl.registrar);
+        get("/login", UsuarioControl.login);
     }
 }

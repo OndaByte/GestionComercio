@@ -141,7 +141,7 @@ public abstract class ABMDAO <T> {
     public List<T> filtrar(List<String> campos, List<String> valores, List<Integer> condiciones){
         try{
             if(campos == null || valores == null || condiciones == null || condiciones.size() != campos.size() || campos.size() != valores.size()){
-                return null;
+                throw(new Exception("Las listas deben tener el mismo tamaño"));
             }
             Class c = this.getClase();
             Class objetobd = c.getSuperclass();
