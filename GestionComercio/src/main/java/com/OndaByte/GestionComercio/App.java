@@ -19,5 +19,6 @@ public class App
         post("/registrar", UsuarioControl.registrar);
         post("/actualizar", UsuarioControl.cambiarcontra);
         get("/login", UsuarioControl.login);
+        post("/baja", UsuarioControl.baja);
     }
 }

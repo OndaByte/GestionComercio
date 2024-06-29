@@ -129,6 +129,11 @@ public class UsuarioControl {
         }
     };
 
+    public static Route baja=(Request req, Response res) -> {
+        DAOUsuario dao = new DAOUsuario();
+        return dao.baja("9",true);
+    };
+
     private static Usuario getUsuario(String usuario){
         DAOUsuario dao = new DAOUsuario();
         List<String> campos = new ArrayList();
@@ -139,6 +144,4 @@ public class UsuarioControl {
         condiciones.add(0);
         return dao.filtrar(campos, valores, condiciones).get(0);
     }
-
-
 }

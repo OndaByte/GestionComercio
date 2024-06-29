@@ -44,7 +44,7 @@ public abstract class ABMDAO <T> {
             if(hereda){
                 for (Field f : this.getPadre().getDeclaredFields()) {
                     nombre=f.getName();
-                    if(nombre.equals("id") || nombre.equals("creado")) continue;
+                    if(nombre.equals(this.getClave()) || nombre.equals("creado")) continue;
                     columnas = columnas + " " + nombre + " ,";
                     valores = valores + " :" + nombre + " ,";
                 }
@@ -52,7 +52,7 @@ public abstract class ABMDAO <T> {
                 columnas = columnas.substring(0,columnas.length()-1)+ ")";
                 query = "INSERT INTO "+ this.padre.getSimpleName() +" "+ columnas + " VALUES " + valores;
                 System.out.println(query);
-                id = con.createQuery(query, true).bind((ObjetoBD) t).executeUpdate().getKey(int.class);
+                id = con.createQuery(query, true).bind(this.getPadre().cast(t)).executeUpdate().getKey(int.class);
                 valores = " ("; 
                 columnas = " (";
             }
@@ -96,7 +96,7 @@ public abstract class ABMDAO <T> {
                     set = set.substring(0,set.length()-2);
                 query = "UPDATE " + this.padre.getSimpleName() + " SET " + set + " WHERE "+this.getClave() + "=:"+this.getClave();
                 System.out.println(query);
-                con.createQuery(query, true).bind((ObjetoBD) t).executeUpdate();
+                con.createQuery(query, true).bind(this.getPadre().cast(t)).executeUpdate();
                 set="";
             }
             for (Field f : this.getClase().getDeclaredFields()) {
@@ -118,9 +118,16 @@ public abstract class ABMDAO <T> {
         return false;
     }
 
-    public boolean baja(){
-        try{
-            throw (new Exception("Falta implementar baja en el ABM"));
+    public boolean baja(String id, boolean borrar){
+        try(Connection con = DAOSql2o.getSql2o().open()){
+            String query;
+            query = (borrar ? "DELETE FROM ": "UPDATE ") 
+                + (hereda ? this.padre.getSimpleName() : this.getTabla()) 
+                + (borrar ? " " : " SET estado=\"INACTIVO\" ")+"WHERE "+this.getClave() + "=:"+this.getClave()
+                + (borrar ? "" : " AND estado=\"ACTIVO\"");
+            System.out.println(query);
+            con.createQuery(query, true).addParameter(this.getClave(), id).executeUpdate();
+            return true;
         }
         catch(Exception e) {
             Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -131,7 +138,10 @@ public abstract class ABMDAO <T> {
     public List<T> listar(){
         try{
             Class c = this.getClase();
-            String query = "SELECT * FROM "+ this.getTabla() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTabla() +".id";
+            String query = "SELECT * FROM "+ this.getTabla() + 
+                (hereda ? 
+                 (" INNER JOIN "+this.getPadre().getSimpleName()+" WHERE "+this.getPadre().getSimpleName()+".id="+this.getTabla()+".id") 
+                 : "") +" AND estado=\"ACTIVO\"";;
             Connection con = DAOSql2o.getSql2o().open();
             return con.createQuery(query).executeAndFetch(c);
         }
@@ -144,24 +154,21 @@ public abstract class ABMDAO <T> {
     public List<T> listar(String... ids){
         try{
             Class c = this.getClase();
-            String query = "SELECT * FROM "+ this.getTabla() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTabla() +".id";
+            String aux="";
+            for (String id : ids){
+                aux += this.getTabla()+"."+this.getClave()+"="+id+" OR ";
+            }
+            aux = aux.length() > 2 ? aux.substring(0,aux.length()-4) : aux;
+
+            String query = "SELECT DISTINCT * FROM "+ this.getTabla() + 
+                (hereda ? 
+                 (" INNER JOIN "+this.getPadre().getSimpleName()+" WHERE ("+this.getPadre().getSimpleName()+".id="+ this.getTabla() +".id) AND ("+aux+")")
+                 : " WHERE "+aux) +" AND estado=\"ACTIVO\"";
+            System.out.println(query);
             Connection con = DAOSql2o.getSql2o().open();
             return con.createQuery(query).executeAndFetch(c);
         }
         catch(Exception e) {
-            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
-        }
-        return null;
-    }
-
-    public T listar(String id) {
-        try{
-            Class c = this.getClase();
-            String query = "SELECT * FROM "+ this.getTabla() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTabla() +".id";
-            Connection con = DAOSql2o.getSql2o().open();
-            return (T) con.createQuery(query).executeScalar(c);
-        }
-        catch (Exception e){
             Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
