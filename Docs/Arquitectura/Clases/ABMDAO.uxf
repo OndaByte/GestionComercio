@@ -23,17 +23,17 @@
     <id>Relation</id>
     <coordinates>
       <x>544</x>
-      <y>584</y>
+      <y>560</y>
       <w>24</w>
-      <h>128</h>
+      <h>152</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;170.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1048</x>
+      <x>872</x>
       <y>680</y>
       <w>136</w>
       <h>128</h>
@@ -56,7 +56,7 @@
       <x>416</x>
       <y>296</y>
       <w>288</w>
-      <h>296</h>
+      <h>272</h>
     </coordinates>
     <panel_attributes>/ABMDAO &lt;T&gt;/
 {sql}
@@ -67,26 +67,24 @@
 /+getTabla() : String/
 /+getClave() : String/
 +alta(t : T) : boolean
-+listar() : List &lt;T&gt;
++filtrar(campos, valores, condiciones) : List &lt;T&gt;
 +listar(id : String) : T
-+listar(ids : Strings[]) : List &lt;T&gt; {falta implementar} 
-+baja(id : Strings) : boolean {falta implementar} 
-+modificar(t : T) : boolean {falta implementar} 
++listar(ids : Strings[]) : List &lt;T&gt; 
++baja(id : String, boolean borrar) : boolean 
++modificar(t : T) : boolean 
 
 --
 Alta, Baja, Modificacion, Seleccion 
 genericos para cualquier clase Java
 
 Debe ser extendida por el DAO
-de la entidad correspondiente
-
-*T DEBE extender ObjetoBD*</panel_attributes>
+de la entidad correspondiente</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>968</x>
+      <x>792</x>
       <y>344</y>
       <w>288</w>
       <h>232</h>
@@ -113,7 +111,7 @@ ser tratados en sus DAOS correspondientes</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1104</x>
+      <x>928</x>
       <y>568</y>
       <w>24</w>
       <h>128</h>
@@ -126,28 +124,14 @@ ser tratados en sus DAOS correspondientes</panel_attributes>
     <coordinates>
       <x>632</x>
       <y>736</y>
-      <w>432</w>
+      <w>256</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 usa &gt;
 m2=1</panel_attributes>
-    <additional_attributes>520.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>696</x>
-      <y>448</y>
-      <w>288</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=1
-usa &gt;
-m2=1</panel_attributes>
-    <additional_attributes>340.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>300.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>

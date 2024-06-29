@@ -1,4 +1,5 @@
 package com.OndaByte.GestionComercio;
+import com.OndaByte.GestionComercio.Control.TestController;
 import com.OndaByte.GestionComercio.Control.UsuarioControl;
 import com.OndaByte.GestionComercio.Filtros.FiltroAutenticador;
 
@@ -12,13 +13,11 @@ public class App
 {
     public static void main( String[] args )
     {
-        before("/protegido/*", FiltroAutenticador.filtro);
-        get("/protegido/test", (req, res) -> "Logueado con exito");
+        //before("/protegido/*", FiltroAutenticador.filtro);
         get("/usuarios", UsuarioControl.usuarios);
-        get("/usuarios/filtrar", UsuarioControl.usuariosFiltrar);
         post("/registrar", UsuarioControl.registrar);
         post("/actualizar", UsuarioControl.cambiarcontra);
         get("/login", UsuarioControl.login);
-        post("/baja", UsuarioControl.baja);
+        post("/eliminar", UsuarioControl.baja);
     }
 }

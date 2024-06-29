@@ -7,10 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.sql2o.Connection;
 
-import com.OndaByte.GestionComercio.Modelo.ObjetoBD;
-
 /**
- * ABMDAO generico
+ * ABMDAO generico SQL para entidades simples, soporta maximo una herencia de entidad, ej Usuario extend ObjetoBD
  * @author Fran
  * @param <T>
  */
@@ -51,7 +49,6 @@ public abstract class ABMDAO <T> {
                 valores = valores.substring(0,valores.length()-1) + ")";
                 columnas = columnas.substring(0,columnas.length()-1)+ ")";
                 query = "INSERT INTO "+ this.padre.getSimpleName() +" "+ columnas + " VALUES " + valores;
-                System.out.println(query);
                 id = con.createQuery(query, true).bind(this.getPadre().cast(t)).executeUpdate().getKey(int.class);
                 valores = " ("; 
                 columnas = " (";
@@ -64,6 +61,9 @@ public abstract class ABMDAO <T> {
             if(hereda){
                 columnas = columnas + " id";
                 valores = valores + " "+id;
+            }else {
+                valores = valores.substring(0,valores.length()-1);
+                columnas = columnas.substring(0,columnas.length()-1);
             }
             columnas +=")";
             valores +=")";
@@ -78,7 +78,7 @@ public abstract class ABMDAO <T> {
         return false;
     }
 
-    public boolean modificar(T t) { //Falta implementar
+    public boolean modificar(T t) {
         try(Connection con = DAOSql2o.getSql2o().beginTransaction()){
             if(t.getClass() != this.getClase()){
                 throw (new Exception("ERROR: el objeto pasado por parametro es del tipo incorrecto, el tipo de este DAO es: "+this.getClase().getName()));
@@ -95,7 +95,6 @@ public abstract class ABMDAO <T> {
                 if(set.length()>2)
                     set = set.substring(0,set.length()-2);
                 query = "UPDATE " + this.padre.getSimpleName() + " SET " + set + " WHERE "+this.getClave() + "=:"+this.getClave();
-                System.out.println(query);
                 con.createQuery(query, true).bind(this.getPadre().cast(t)).executeUpdate();
                 set="";
             }
@@ -125,7 +124,6 @@ public abstract class ABMDAO <T> {
                 + (hereda ? this.padre.getSimpleName() : this.getTabla()) 
                 + (borrar ? " " : " SET estado=\"INACTIVO\" ")+"WHERE "+this.getClave() + "=:"+this.getClave()
                 + (borrar ? "" : " AND estado=\"ACTIVO\"");
-            System.out.println(query);
             con.createQuery(query, true).addParameter(this.getClave(), id).executeUpdate();
             return true;
         }
@@ -140,8 +138,8 @@ public abstract class ABMDAO <T> {
             Class c = this.getClase();
             String query = "SELECT * FROM "+ this.getTabla() + 
                 (hereda ? 
-                 (" INNER JOIN "+this.getPadre().getSimpleName()+" WHERE "+this.getPadre().getSimpleName()+".id="+this.getTabla()+".id") 
-                 : "") +" AND estado=\"ACTIVO\"";;
+                 (" INNER JOIN "+this.getPadre().getSimpleName()+" WHERE "+this.getPadre().getSimpleName()+".id="+this.getTabla()+".id AND ") 
+                 : " WHERE ") +"estado=\"ACTIVO\"";
             Connection con = DAOSql2o.getSql2o().open();
             return con.createQuery(query).executeAndFetch(c);
         }
@@ -164,7 +162,6 @@ public abstract class ABMDAO <T> {
                 (hereda ? 
                  (" INNER JOIN "+this.getPadre().getSimpleName()+" WHERE ("+this.getPadre().getSimpleName()+".id="+ this.getTabla() +".id) AND ("+aux+")")
                  : " WHERE "+aux) +" AND estado=\"ACTIVO\"";
-            System.out.println(query);
             Connection con = DAOSql2o.getSql2o().open();
             return con.createQuery(query).executeAndFetch(c);
         }
@@ -184,7 +181,7 @@ public abstract class ABMDAO <T> {
             String queryAux = " ";
             int i = 0; 
             boolean esPrimitivo = false;
-            String tablaCampoAux = "ObjetoBD";
+            String tablaCampoAux = "";
             for (String campo : campos){
                 if (!Arrays.stream(objetobd.getDeclaredFields()).anyMatch(x -> x.getName().equals(campo))){
                     esPrimitivo = false;
@@ -195,7 +192,7 @@ public abstract class ABMDAO <T> {
                 }
                 else{
                     esPrimitivo = true;
-                    tablaCampoAux = "ObjetoBD";
+                    tablaCampoAux = this.padre.getSimpleName();
                 }
                 switch (condiciones.get(i)) {
                     case 0:
@@ -220,9 +217,9 @@ public abstract class ABMDAO <T> {
                 i++;
             }
             if(queryAux.length() > 1){queryAux = queryAux.substring(0, queryAux.length()-5);}
-            String query = "SELECT * FROM "+ this.getTabla() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTabla() +".id AND";
+            String query = "SELECT * FROM "+ this.getTabla() + 
+                (hereda ? " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTabla() +".id AND" : "");
             query+= queryAux; 
-        
             Connection con = DAOSql2o.getSql2o().open();
             return con.createQuery(query).executeAndFetch(c);
         }

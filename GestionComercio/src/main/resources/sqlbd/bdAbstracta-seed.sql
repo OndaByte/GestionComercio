@@ -11,3 +11,8 @@ INSERT INTO Usuario (id, usuario, contra) VALUES (3, 'usuario3', 'contra3');
 INSERT INTO Usuario (id, usuario, contra) VALUES (4, 'usuario4', 'contra4');
 INSERT INTO Usuario (id, usuario, contra) VALUES (5, 'usuario5', 'contra5');
 
+INSERT INTO Test (texto) VALUES ('Texto de ejemplo 1');
+INSERT INTO Test (texto) VALUES ('Texto de ejemplo 2');
+INSERT INTO Test (texto) VALUES ('Texto de ejemplo 3');
+INSERT INTO Test (texto) VALUES ('Texto de ejemplo 4');
+INSERT INTO Test (texto) VALUES ('Texto de ejemplo 5');
