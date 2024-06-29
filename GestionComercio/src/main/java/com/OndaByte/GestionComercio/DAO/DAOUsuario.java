@@ -4,7 +4,10 @@ import com.OndaByte.GestionComercio.Modelo.Usuario;
 
 public class DAOUsuario extends ABMDAO<Usuario>{
     private String clave = "id";
-    private String tabla = "Usuario";
+
+    public DAOUsuario(){
+        this.setHereda();
+    }
 
     public Class<Usuario> getClase(){
         return Usuario.class;
@@ -12,5 +15,4 @@ public class DAOUsuario extends ABMDAO<Usuario>{
 
     public String getClave(){return this.clave;}
     
-    public String getTabla(){return this.tabla;}
 }

@@ -15,44 +15,59 @@ import com.OndaByte.GestionComercio.Modelo.ObjetoBD;
  * @param <T>
  */
 public abstract class ABMDAO <T> {
+    private boolean hereda=false; //Si hereda en la bd de una abstraccion, ej ObjetoBD
+    private Class padre = null; //Tengo que implementar esto, que cuando lo setee true de alta al padre y al hijo correspondiente, en false trabajo con tablas simples
+
     abstract public Class<T> getClase();
     
     abstract public String getClave();
     
-    abstract public String getTabla();
+    public String getTabla(){return this.getClase().getSimpleName();}
+
+    public void setHereda(){
+        this.padre=this.getClase().getSuperclass();
+        this.hereda = true;
+    }
+
+    private Class getPadre(){return this.padre;}
     
     public boolean alta(T t) {
         try(Connection con = DAOSql2o.getSql2o().beginTransaction()){
-            Class c = t.getClass();
-            Class objetobd = c.getSuperclass();
-            if(objetobd != ObjetoBD.class){
-                throw (new Exception("La entidad debe heredar de ObjetoBD"));
+            if(t.getClass() != this.getClase()){
+                throw (new Exception("ERROR: el objeto pasado por parametro es del tipo incorrecto, el tipo de este DAO es: "+this.getClase().getName()));
             }
             String valores = " ("; 
             String columnas = " (";
             String nombre="";
-            for (Field f : objetobd.getDeclaredFields()) {
+            String query;
+            int id = -1;
+            if(hereda){
+                for (Field f : this.getPadre().getDeclaredFields()) {
+                    nombre=f.getName();
+                    if(nombre.equals("id") || nombre.equals("creado")) continue;
+                    columnas = columnas + " " + nombre + " ,";
+                    valores = valores + " :" + nombre + " ,";
+                }
+                valores = valores.substring(0,valores.length()-1) + ")";
+                columnas = columnas.substring(0,columnas.length()-1)+ ")";
+                query = "INSERT INTO "+ this.padre.getSimpleName() +" "+ columnas + " VALUES " + valores;
+                System.out.println(query);
+                id = con.createQuery(query, true).bind((ObjetoBD) t).executeUpdate().getKey(int.class);
+                valores = " ("; 
+                columnas = " (";
+            }
+            for (Field f : this.getClase().getDeclaredFields()) {
                 nombre=f.getName();
-                if(nombre.equals("id")) continue;
                 columnas = columnas + " " + nombre + " ,";
                 valores = valores + " :" + nombre + " ,";
             }
-            valores = valores.substring(0,valores.length()-1) + ")";
-            columnas = columnas.substring(0,columnas.length()-1)+ ")";
-            String query = "INSERT INTO ObjetoBD " + columnas + " VALUES " + valores;
-            int id = con.createQuery(query, true).bind((ObjetoBD) t).executeUpdate().getKey(int.class);
-
-            valores = " ("; 
-            columnas = " (";
-            nombre="";
-            for (Field f : c.getDeclaredFields()) {
-                nombre=f.getName();
-                columnas = columnas + " " + nombre + " ,";
-                valores = valores + " :" + nombre + " ,";
+            if(hereda){
+                columnas = columnas + " id";
+                valores = valores + " "+id;
             }
-            columnas = columnas + " id)";
-            valores = valores + " "+id+")";
-            query = "INSERT INTO " + getTabla() + " " + columnas + " VALUES " + valores;
+            columnas +=")";
+            valores +=")";
+            query = "INSERT INTO " + this.getTabla() + " " + columnas + " VALUES " + valores;
             con.createQuery(query).bind(t).executeUpdate();
             con.commit();
             return true;
@@ -63,28 +78,39 @@ public abstract class ABMDAO <T> {
         return false;
     }
 
-    public boolean modificar(T t) {
-        try {
-            Class c = t.getClass();
-            String set="";
-            String nombre;
-
-            if(c.getSuperclass() != ObjetoBD.class){
-                throw (new Exception("La entidad debe heredar de ObjetoBD"));
+    public boolean modificar(T t) { //Falta implementar
+        try(Connection con = DAOSql2o.getSql2o().beginTransaction()){
+            if(t.getClass() != this.getClase()){
+                throw (new Exception("ERROR: el objeto pasado por parametro es del tipo incorrecto, el tipo de este DAO es: "+this.getClase().getName()));
             }
-            for (Field f : c.getDeclaredFields()) {
-                nombre=f.getName();
-                if(nombre.equals(this.getClave())){
-                    continue;
+            String nombre="";
+            String set="";
+            String query;
+            if(hereda){
+                for (Field f : this.getPadre().getDeclaredFields()) {
+                    nombre=f.getName();
+                    if(nombre.equals(this.getClave()) || nombre.equals("creado")) continue;
+                    set = set + nombre + "=:" + nombre+", ";
                 }
+                if(set.length()>2)
+                    set = set.substring(0,set.length()-2);
+                query = "UPDATE " + this.padre.getSimpleName() + " SET " + set + " WHERE "+this.getClave() + "=:"+this.getClave();
+                System.out.println(query);
+                con.createQuery(query, true).bind((ObjetoBD) t).executeUpdate();
+                set="";
+            }
+            for (Field f : this.getClase().getDeclaredFields()) {
+                nombre=f.getName();
+                if(nombre.equals(this.getClave())) continue;
                 set = set + nombre + "=:" + nombre+", ";
             }
             if(set.length()>2)
                 set = set.substring(0,set.length()-2);
-
-            String query = "UPDATE " + getTabla() + " SET " + set + " WHERE "+this.getClave() + "=:"+this.getClave();
-            Connection con = DAOSql2o.getSql2o().open();
+            query = "UPDATE " + this.getTabla() + " SET " + set + " WHERE "+this.getClave() + "=:"+this.getClave();
+            
             con.createQuery(query).bind(t).executeUpdate();
+            con.commit();
+            return true;
         }
         catch (Exception e){
             Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -94,7 +120,7 @@ public abstract class ABMDAO <T> {
 
     public boolean baja(){
         try{
-            throw(new Exception("No implementado"));
+            throw (new Exception("Falta implementar baja en el ABM"));
         }
         catch(Exception e) {
             Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -103,9 +129,9 @@ public abstract class ABMDAO <T> {
     }
     
     public List<T> listar(){
-        Class c = this.getClase();
-        String query = "SELECT * FROM "+ this.getTabla() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTabla() +".id";
         try{
+            Class c = this.getClase();
+            String query = "SELECT * FROM "+ this.getTabla() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTabla() +".id";
             Connection con = DAOSql2o.getSql2o().open();
             return con.createQuery(query).executeAndFetch(c);
         }
@@ -116,8 +142,11 @@ public abstract class ABMDAO <T> {
     }
 
     public List<T> listar(String... ids){
-         try{
-            throw(new Exception("No implementado"));
+        try{
+            Class c = this.getClase();
+            String query = "SELECT * FROM "+ this.getTabla() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTabla() +".id";
+            Connection con = DAOSql2o.getSql2o().open();
+            return con.createQuery(query).executeAndFetch(c);
         }
         catch(Exception e) {
             Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -126,9 +155,9 @@ public abstract class ABMDAO <T> {
     }
 
     public T listar(String id) {
-        Class c = this.getClase();
-        String query = "SELECT * FROM "+ this.getTabla() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTabla() +".id";
         try{
+            Class c = this.getClase();
+            String query = "SELECT * FROM "+ this.getTabla() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTabla() +".id";
             Connection con = DAOSql2o.getSql2o().open();
             return (T) con.createQuery(query).executeScalar(c);
         }
@@ -150,7 +179,6 @@ public abstract class ABMDAO <T> {
             boolean esPrimitivo = false;
             String tablaCampoAux = "ObjetoBD";
             for (String campo : campos){
-                // si uno de los campos no existe
                 if (!Arrays.stream(objetobd.getDeclaredFields()).anyMatch(x -> x.getName().equals(campo))){
                     esPrimitivo = false;
                     if(!Arrays.stream(c.getDeclaredFields()).anyMatch(x -> x.getName().equals(campo))){
@@ -196,17 +224,4 @@ public abstract class ABMDAO <T> {
         }
         return null;
     }
-
-    /*
-    public void addAndFiltro(String ){
-        String query = "SELECT * FROM "+ this.getTableName();
-        try{
-            Connection con = DAOSql2o.getSql2o().open();
-            return con.createQuery(query).executeAndFetch(c);
-        }
-        catch (Exception e){
-            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
-        }
-        return null;
-    } */
 }
