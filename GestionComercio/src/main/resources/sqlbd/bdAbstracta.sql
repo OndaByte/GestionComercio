@@ -9,10 +9,10 @@ CREATE TABLE ObjetoBD(
     tipo VARCHAR(50),
     PRIMARY KEY(id)
 );
-
+--Contra larga xq va encriptada
 CREATE TABLE Usuario(
     id INT PRIMARY KEY,
     usuario VARCHAR(50) UNIQUE,
-    contra VARCHAR(50),
+    contra VARCHAR(500),
     FOREIGN KEY(id) REFERENCES ObjetoBD(id) ON DELETE CASCADE
 );

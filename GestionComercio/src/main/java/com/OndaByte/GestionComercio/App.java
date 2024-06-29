@@ -2,8 +2,8 @@ package com.OndaByte.GestionComercio;
 import com.OndaByte.GestionComercio.Control.UsuarioControl;
 import com.OndaByte.GestionComercio.Filtros.FiltroAutenticador;
 
-import spark.Spark;
 
+import static spark.Spark.*;
 /**
  * App
  * @author Fran
@@ -12,9 +12,10 @@ public class App
 {
     public static void main( String[] args )
     {
-        Spark.before("/protegido/*", FiltroAutenticador.filtro);
-        Spark.get("/protegido/test", (req, res) -> "Logueado con exito");
-        Spark.get("/usuarios", UsuarioControl.usuarios);
-        Spark.get("/registrar", UsuarioControl.registrar);
+        before("/protegido/*", FiltroAutenticador.filtro);
+        get("/protegido/test", (req, res) -> "Logueado con exito");
+        get("/usuarios", UsuarioControl.usuarios);
+        get("/usuarios/filtrar", UsuarioControl.usuariosFiltrar);
+        post("/registrar", UsuarioControl.registrar);
     }
 }

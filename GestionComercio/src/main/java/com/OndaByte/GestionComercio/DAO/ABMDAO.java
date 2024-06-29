@@ -1,6 +1,7 @@
 package com.OndaByte.GestionComercio.DAO;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +53,6 @@ public abstract class ABMDAO <T> {
             columnas = columnas + " id)";
             valores = valores + " "+id+")";
             query = "INSERT INTO " + getTabla() + " " + columnas + " VALUES " + valores;
-            System.out.println(query);
             con.createQuery(query).bind(t).executeUpdate();
             con.commit();
             return true;
@@ -83,7 +83,6 @@ public abstract class ABMDAO <T> {
                 set = set.substring(0,set.length()-2);
 
             String query = "UPDATE " + getTabla() + " SET " + set + " WHERE "+this.getClave() + "=:"+this.getClave();
-            System.out.println(query);
             Connection con = DAOSql2o.getSql2o().open();
             con.createQuery(query).bind(t).executeUpdate();
         }
@@ -139,6 +138,65 @@ public abstract class ABMDAO <T> {
         return null;
     }
 
+    public List<T> filtrar(List<String> campos, List<String> valores, List<Integer> condiciones){
+        try{
+            if(campos == null || valores == null || condiciones == null || condiciones.size() != campos.size() || campos.size() != valores.size()){
+                return null;
+            }
+            Class c = this.getClase();
+            Class objetobd = c.getSuperclass();
+            String queryAux = " ";
+            int i = 0; 
+            boolean esPrimitivo = false;
+            String tablaCampoAux = "ObjetoBD";
+            for (String campo : campos){
+                // si uno de los campos no existe
+                if (!Arrays.stream(objetobd.getDeclaredFields()).anyMatch(x -> x.getName().equals(campo))){
+                    esPrimitivo = false;
+                    if(!Arrays.stream(c.getDeclaredFields()).anyMatch(x -> x.getName().equals(campo))){
+                        throw(new Exception("El campo no existe"));
+                    } 
+                    tablaCampoAux =  this.getTabla();
+                }
+                else{
+                    esPrimitivo = true;
+                    tablaCampoAux = "ObjetoBD";
+                }
+                switch (condiciones.get(i)) {
+                    case 0:
+                        queryAux +=tablaCampoAux+"."+campos.get(i)+"=\""+valores.get(i)+"\" AND ";
+                        break;
+                    case 1:
+                        queryAux +=tablaCampoAux+"."+campos.get(i)+"<=\""+valores.get(i)+"\" AND ";
+                        break;
+                    case 2:
+                        queryAux +=tablaCampoAux+"."+campos.get(i)+"<\""+valores.get(i)+"\" AND ";
+                        break;
+                    case 3:
+                        queryAux +=tablaCampoAux+"."+campos.get(i)+">=\""+valores.get(i)+"\" AND ";
+                        break;
+                    case 4:
+                        queryAux +=tablaCampoAux+"."+campos.get(i)+">\""+valores.get(i)+"\" AND ";
+                        break;
+                    case 5:
+                        queryAux +=tablaCampoAux+"."+campos.get(i)+" LIKE \""+valores.get(i)+"\" AND ";
+                        break;
+                }
+                i++;
+            }
+            if(queryAux.length() > 1){queryAux = queryAux.substring(0, queryAux.length()-5);}
+            String query = "SELECT * FROM "+ this.getTabla() + " INNER JOIN ObjetoBD WHERE ObjetoBD.id="+ this.getTabla() +".id AND";
+            query+= queryAux; 
+        
+            Connection con = DAOSql2o.getSql2o().open();
+            return con.createQuery(query).executeAndFetch(c);
+        }
+        catch (Exception e){
+            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return null;
+    }
+
     /*
     public void addAndFiltro(String ){
         String query = "SELECT * FROM "+ this.getTableName();
@@ -150,19 +208,5 @@ public abstract class ABMDAO <T> {
             Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
-    }
-    
-    public T get(T t){
-        Class c = t.getClass();
-        
-        String query = "SELECT * FROM"+ this.getTableName() +" WHERE "+this.getTablePK() + "=:"+this.getTablePK();
-        try{
-            Connection con = DAOSql2o.getSql2o().open();
-            con.createQuery(query).bind(t).executeAndFetch(c);
-        }
-        catch (Exception e){
-            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
-        }
-        return null;
-    }*/
+    } */
 }
