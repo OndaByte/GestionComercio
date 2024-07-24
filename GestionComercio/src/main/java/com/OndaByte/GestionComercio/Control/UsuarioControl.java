@@ -84,6 +84,8 @@ public class UsuarioControl {
         }
         Usuario aux = getUsuario(usuario);
         if (BCrypt.checkpw(contra, aux.getContra())){
+            req.session().attribute("usuario", usuario);
+
             res.status(200);
             return "Loguin exitoso";
         }
@@ -94,6 +96,17 @@ public class UsuarioControl {
     };
 
     public static Route baja=(Request req, Response res) -> {
+        String usuario = req.session().attribute("usuario");
+        String rol = req.session().attribute("rol"); 
+
+        if(usuario == null || usuario.equals("")){
+            res.status(401);
+            return "Error debe loguearse";
+        }
+        if(rol == null || !rol.equals("Admin")){
+            res.status(403);
+            return "Error no tiene los permisos para realizar esta accion";
+        }
         String id = req.queryParams("id");
         String borrar = req.queryParams("borrar");
         DAOUsuario dao = new DAOUsuario();

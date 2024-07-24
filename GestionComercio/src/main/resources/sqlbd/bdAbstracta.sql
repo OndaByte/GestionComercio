@@ -1,3 +1,7 @@
+DROP TABLE IF EXISTS Rol_Permiso ;
+DROP TABLE IF EXISTS Usuario_Rol;
+DROP TABLE IF EXISTS Permiso;
+DROP TABLE IF EXISTS Rol;
 DROP TABLE IF EXISTS Usuario;
 DROP TABLE IF EXISTS ObjetoBD;
 DROP TABLE IF EXISTS Test;
@@ -16,6 +20,32 @@ CREATE TABLE Usuario(
     usuario VARCHAR(50) UNIQUE,
     contra VARCHAR(500),
     FOREIGN KEY(id) REFERENCES ObjetoBD(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Rol(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) UNIQUE,
+);
+
+CREATE TABLE Permiso(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) UNIQUE,
+);
+
+CREATE TABLE Usuario_Rol (
+    usuario_id INT,
+    rol_id INT,
+    PRIMARY KEY (usuario_id, rol_id),
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(id) ON DELETE CASCADE,
+    FOREIGN KEY (rol_id) REFERENCES Rol(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Rol_Permiso (
+    rol_id INT,
+    permiso_id INT,
+    PRIMARY KEY (rol_id, permiso_id),
+    FOREIGN KEY (rol_id) REFERENCES Rol(id) ON DELETE CASCADE,
+    FOREIGN KEY (permiso_id) REFERENCES Permiso(id) ON DELETE CASCADE
 );
 
 --tabla testing que no hereda de ObjetoBD

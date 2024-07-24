@@ -4,8 +4,8 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>620</x>
-      <y>250</y>
+      <x>380</x>
+      <y>170</y>
       <w>250</w>
       <h>150</h>
     </coordinates>
@@ -21,8 +21,8 @@ tipo : String</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>360</x>
-      <y>240</y>
+      <x>120</x>
+      <y>160</y>
       <w>240</w>
       <h>110</h>
     </coordinates>
@@ -36,8 +36,8 @@ deben ser hijas de ObjetoBD</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>620</x>
-      <y>550</y>
+      <x>380</x>
+      <y>470</y>
       <w>250</w>
       <h>150</h>
     </coordinates>
@@ -51,8 +51,8 @@ contra : String</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>740</x>
-      <y>390</y>
+      <x>500</x>
+      <y>310</y>
       <w>90</w>
       <h>180</h>
     </coordinates>
@@ -63,14 +63,59 @@ Extiende</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;160.0</additional_attributes>
   </element>
   <element>
-    <id>UMLNote</id>
+    <id>UMLUseCase</id>
     <coordinates>
-      <x>350</x>
-      <y>600</y>
-      <w>240</w>
-      <h>110</h>
+      <x>830</x>
+      <y>470</y>
+      <w>250</w>
+      <h>150</h>
     </coordinates>
-    <panel_attributes>Falta agregar roles de usuario</panel_attributes>
+    <panel_attributes>Rol
+--
+*id : Int*
+nombre : String</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>830</x>
+      <y>730</y>
+      <w>250</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Permiso
+--
+*id : Int*
+nombre : String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>950</x>
+      <y>610</y>
+      <w>60</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1..*
+m2=1..*
+Tiene</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>620</x>
+      <y>520</y>
+      <w>230</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1..*
+m2=1..*
+Tiene</panel_attributes>
+    <additional_attributes>10.0;20.0;210.0;20.0</additional_attributes>
   </element>
 </diagram>
