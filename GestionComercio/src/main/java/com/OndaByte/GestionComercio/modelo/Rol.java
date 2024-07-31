@@ -1,4 +1,4 @@
-package com.OndaByte.GestionComercio.Modelo;
+package com.OndaByte.GestionComercio.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,5 +36,9 @@ public class Rol {
 
     public void setPermisos(List<Permiso> permisos) {
         this.permisos = permisos;
+    }
+    
+    public String toString(){
+        return "{ id : "+id+", nombre : \""+nombre+"\", permisos : "+permisos.toString()+" }";
     }
 }

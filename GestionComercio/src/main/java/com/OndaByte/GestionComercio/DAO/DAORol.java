@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 import org.sql2o.Connection;
 
-import com.OndaByte.GestionComercio.Modelo.Rol;
+import com.OndaByte.GestionComercio.modelo.Rol;
 
 /**
  * DAORol

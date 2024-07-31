@@ -1,9 +1,9 @@
-package com.OndaByte.GestionComercio.Control;
+package com.OndaByte.GestionComercio.control;
 
 import java.util.List;
 
 import com.OndaByte.GestionComercio.DAO.DAOTest;
-import com.OndaByte.GestionComercio.Modelo.Test;
+import com.OndaByte.GestionComercio.modelo.Test;
 
 import spark.Request;
 import spark.Response;

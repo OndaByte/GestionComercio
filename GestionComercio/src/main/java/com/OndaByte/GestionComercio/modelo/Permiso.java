@@ -1,4 +1,4 @@
-package com.OndaByte.GestionComercio.Modelo;
+package com.OndaByte.GestionComercio.modelo;
 
 /**
  * Permiso
@@ -18,5 +18,8 @@ public class Permiso {
     }
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    public String toString(){
+        return "{ id : "+id+", nombre : "+nombre+" }";
     }
 }

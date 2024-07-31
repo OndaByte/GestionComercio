@@ -1,7 +1,6 @@
 package com.OndaByte.GestionComercio;
-import com.OndaByte.GestionComercio.Control.TestController;
-import com.OndaByte.GestionComercio.Control.UsuarioControl;
-import com.OndaByte.GestionComercio.Filtros.FiltroAutenticador;
+import com.OndaByte.GestionComercio.control.UsuarioControl;
+import com.OndaByte.GestionComercio.filtros.FiltroAutenticador;
 
 
 import static spark.Spark.*;
@@ -13,11 +12,12 @@ public class App
 {
     public static void main( String[] args )
     {
-        //before("/protegido/*", FiltroAutenticador.filtro);
-        get("/usuarios", UsuarioControl.usuarios);
+        before("/protegido/*", FiltroAutenticador.filtro);
+        get("/protegido/usuarios", UsuarioControl.usuarios);
         post("/registrar", UsuarioControl.registrar);
-        post("/actualizar", UsuarioControl.cambiarcontra);
-        get("/login", UsuarioControl.login);
-        post("/eliminar", UsuarioControl.baja);
+        post("/protegido/actualizar", UsuarioControl.cambiarcontra);
+        get("/login", UsuarioControl.loginForm);
+        post("/login", UsuarioControl.login);
+        post("/protegido/eliminar", UsuarioControl.baja);
     }
 }

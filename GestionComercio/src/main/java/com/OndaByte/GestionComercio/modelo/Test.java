@@ -1,4 +1,4 @@
-package com.OndaByte.GestionComercio.Modelo;
+package com.OndaByte.GestionComercio.modelo;
 
 /**
  * Test

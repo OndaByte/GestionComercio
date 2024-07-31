@@ -7,6 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.sql2o.Connection;
 
+import com.OndaByte.GestionComercio.util.Log;
+
 /**
  * ABMDAO generico SQL para entidades simples, soporta maximo una herencia de entidad, ej Usuario extend ObjetoBD
  * @author Fran
@@ -73,7 +75,7 @@ public abstract class ABMDAO <T> {
             return true;
         }
         catch (Exception e){
-            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
+            Log.log(e, ABMDAO.class);
         }
         return false;
     }
@@ -112,7 +114,7 @@ public abstract class ABMDAO <T> {
             return true;
         }
         catch (Exception e){
-            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
+            Log.log(e, ABMDAO.class);
         }
         return false;
     }
@@ -128,7 +130,7 @@ public abstract class ABMDAO <T> {
             return true;
         }
         catch(Exception e) {
-            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
+            Log.log(e, ABMDAO.class);
         }
         return false;
     }
@@ -144,7 +146,7 @@ public abstract class ABMDAO <T> {
             return con.createQuery(query).executeAndFetch(c);
         }
         catch (Exception e){
-            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
+            Log.log(e, ABMDAO.class);
         }
         return null;
     }
@@ -166,7 +168,7 @@ public abstract class ABMDAO <T> {
             return con.createQuery(query).executeAndFetch(c);
         }
         catch(Exception e) {
-            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
+            Log.log(e, ABMDAO.class);
         }
         return null;
     }
@@ -224,7 +226,7 @@ public abstract class ABMDAO <T> {
             return con.createQuery(query).executeAndFetch(c);
         }
         catch (Exception e){
-            Logger.getLogger(ABMDAO.class.getName()).log(Level.SEVERE, null, e);
+            Log.log(e, ABMDAO.class);
         }
         return null;
     }

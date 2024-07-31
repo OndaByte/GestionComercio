@@ -6,8 +6,8 @@ import javax.xml.transform.SourceLocator;
 
 import com.OndaByte.GestionComercio.DAO.DAOUsuario;
 import com.OndaByte.GestionComercio.Modelo.Usuario;
+import com.OndaByte.GestionComercio.Util.Seguridad;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -72,8 +72,13 @@ public class UsuarioControl {
             return "Error al registrar";
         }
     };
+
+    public static Route loginForm = (Request req, Response res) -> {
+        res.status(501);
+        return "No implementado sory";
+    };
     
-    public static Route login= (Request req, Response res) -> {
+    public static Route login = (Request req, Response res) -> {
         DAOUsuario dao = new DAOUsuario();
         String usuario = req.queryParams("usuario");
         String contra = req.queryParams("contra");
@@ -84,8 +89,9 @@ public class UsuarioControl {
         }
         Usuario aux = getUsuario(usuario);
         if (BCrypt.checkpw(contra, aux.getContra())){
-            req.session().attribute("usuario", usuario);
-
+            System.out.println("asdasdasdasd");
+            res.header("Token",Seguridad.getToken(usuario));
+            System.out.println("asdasd");
             res.status(200);
             return "Loguin exitoso";
         }
@@ -95,18 +101,7 @@ public class UsuarioControl {
         }
     };
 
-    public static Route baja=(Request req, Response res) -> {
-        String usuario = req.session().attribute("usuario");
-        String rol = req.session().attribute("rol"); 
-
-        if(usuario == null || usuario.equals("")){
-            res.status(401);
-            return "Error debe loguearse";
-        }
-        if(rol == null || !rol.equals("Admin")){
-            res.status(403);
-            return "Error no tiene los permisos para realizar esta accion";
-        }
+    public static Route baja = (Request req, Response res) -> {
         String id = req.queryParams("id");
         String borrar = req.queryParams("borrar");
         DAOUsuario dao = new DAOUsuario();

@@ -1,6 +1,6 @@
 package com.OndaByte.GestionComercio.DAO;
 
-import com.OndaByte.GestionComercio.Modelo.Test;
+import com.OndaByte.GestionComercio.modelo.Test;
 
 /**
  * DAOTest
