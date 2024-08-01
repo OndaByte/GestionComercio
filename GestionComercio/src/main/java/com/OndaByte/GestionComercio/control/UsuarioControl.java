@@ -2,8 +2,6 @@ package com.OndaByte.GestionComercio.control;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.transform.SourceLocator;
-
 import com.OndaByte.GestionComercio.DAO.DAOUsuario;
 import com.OndaByte.GestionComercio.modelo.Usuario;
 import com.OndaByte.GestionComercio.util.Seguridad;
