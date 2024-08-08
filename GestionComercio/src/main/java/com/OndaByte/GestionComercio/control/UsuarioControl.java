@@ -13,6 +13,11 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class UsuarioControl {
 
+    public static Route test = (Request req, Response res) -> {
+        DAOUsuario dao = new DAOUsuario();
+        return dao.objetoAColumnas(new Usuario());
+    };
+
     public static Route usuarios = (Request req, Response res) -> {
         DAOUsuario dao = new DAOUsuario();
         List<Usuario> usuarios = dao.listar();

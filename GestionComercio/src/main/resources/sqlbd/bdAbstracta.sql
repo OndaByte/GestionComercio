@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS Rol_Permiso ;
-DROP TABLE IF EXISTS Usuario_Rol;
+DROP TABLE IF EXISTS RolPermiso ;
+DROP TABLE IF EXISTS UsuarioRol;
 DROP TABLE IF EXISTS Permiso;
 DROP TABLE IF EXISTS Rol;
 DROP TABLE IF EXISTS Usuario;
@@ -32,7 +32,7 @@ CREATE TABLE Permiso(
     nombre VARCHAR(50) UNIQUE
 );
 
-CREATE TABLE Usuario_Rol (
+CREATE TABLE UsuarioRol (
     usuario_id INT,
     rol_id INT,
     PRIMARY KEY (usuario_id, rol_id),
@@ -40,7 +40,7 @@ CREATE TABLE Usuario_Rol (
     FOREIGN KEY (rol_id) REFERENCES Rol(id) ON DELETE CASCADE
 );
 
-CREATE TABLE Rol_Permiso (
+CREATE TABLE RolPermiso (
     rol_id INT,
     permiso_id INT,
     PRIMARY KEY (rol_id, permiso_id),

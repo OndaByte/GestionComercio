@@ -3,8 +3,6 @@ package com.OndaByte.GestionComercio.DAO;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.sql2o.Connection;
 
 import com.OndaByte.GestionComercio.util.Log;
@@ -31,6 +29,17 @@ public abstract class ABMDAO <T> {
 
     private Class getPadre(){return this.padre;}
     
+
+    public String objetoAColumnas(T t){
+        Class clase = t.getClass();
+        String res = "";
+        while(clase.getName().contains("OndaByte") && clase.getName().contains("modelo")){
+            res += clase.getSimpleName() + " hijo de ";
+            clase = clase.getSuperclass();
+        }
+        return res;
+    }
+
     public boolean alta(T t) {
         try(Connection con = DAOSql2o.getSql2o().beginTransaction()){
             if(t.getClass() != this.getClase()){

@@ -19,5 +19,6 @@ public class App
         get("/login", UsuarioControl.loginForm);
         post("/login", UsuarioControl.login);
         post("/protegido/eliminar", UsuarioControl.baja);
+        get("/test", UsuarioControl.test);
     }
 }
