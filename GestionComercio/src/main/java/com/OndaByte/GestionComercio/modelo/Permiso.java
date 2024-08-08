@@ -20,6 +20,6 @@ public class Permiso {
         this.nombre = nombre;
     }
     public String toString(){
-        return "{ id : "+id+", nombre : "+nombre+" }";
+        return "{ \"id\" : "+id+", \"nombre\" : "+nombre+" }";
     }
 }

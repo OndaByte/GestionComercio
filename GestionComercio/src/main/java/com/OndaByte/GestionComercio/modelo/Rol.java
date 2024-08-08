@@ -39,6 +39,6 @@ public class Rol {
     }
     
     public String toString(){
-        return "{ id : "+id+", nombre : \""+nombre+"\", permisos : "+permisos.toString()+" }";
+        return "{ \"id\" : "+id+", \"nombre\" : \""+nombre+"\", \"permisos\" : "+permisos.toString()+" }";
     }
 }

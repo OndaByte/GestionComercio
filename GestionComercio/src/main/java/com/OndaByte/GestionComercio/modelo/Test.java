@@ -29,6 +29,6 @@ public class Test {
 	}
 
     public String toString(){
-        return "{id : "+this.id+", texto : \""+this.texto+"\" }";
+        return "{ \"id\" : "+this.id+", \"texto\" : \""+this.texto+"\" }";
     }
 }
